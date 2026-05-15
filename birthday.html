@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday, Shinta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FDF6EE',
+            petal: '#FCEEE3',
+            blush: '#F2C4A0',
+            amber: '#E8956D',
+            rust: '#C97B4B',
+            bark: '#6B3F2A',
+            fog: '#F9F3EC',
+          },
+          fontFamily: {
+            display: ['Cormorant Garamond', 'serif'],
+            body: ['Jost', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="birthday.css"/>
+</head>
+<body class="locked">
+
+<!-- Petal Canvas -->
+<canvas id="petal-canvas"></canvas>
+
+<!-- ── SECURITY GATE ── -->
+<div id="security-gate">
+  <div class="gate-card">
+    <p class="section-label" style="margin-bottom:.35rem">Khusus Untuk</p>
+    <h2 class="section-title" style="font-size:2rem">Shinta Aulia Syafitri</h2>
+    <p class="text-sm text-bark/65 mt-3">Masukkan kode rahasia untuk membuka kejutan</p>
+    <div class="pin-dots">
+      <span class="pin-dot" data-dot="0"></span>
+      <span class="pin-dot" data-dot="1"></span>
+      <span class="pin-dot" data-dot="2"></span>
+      <span class="pin-dot" data-dot="3"></span>
+    </div>
+    <div class="pin-pad" id="pin-pad">
+      <button class="pin-key">1</button><button class="pin-key">2</button><button class="pin-key">3</button>
+      <button class="pin-key">4</button><button class="pin-key">5</button><button class="pin-key">6</button>
+      <button class="pin-key">7</button><button class="pin-key">8</button><button class="pin-key">9</button>
+      <button class="pin-key" data-action="clear">⌫</button><button class="pin-key">0</button><button class="pin-key" data-action="reset">Reset</button>
+    </div>
+    <p class="pin-error" id="pin-error"></p>
+  </div>
+</div>
+
+<div id="main-app">
+
+
+<!-- ── NAV ── -->
+<nav class="py-4 px-6">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <span class="font-display italic text-rust text-xl">Shinta</span>
+    <div class="hidden sm:flex gap-7 text-xs tracking-widest uppercase font-body text-bark/60">
+      <a href="#counter" class="hover:text-rust transition-colors">Our Time</a>
+      <a href="#gallery" class="hover:text-rust transition-colors">Gallery</a>
+      <a href="#portraits" class="hover:text-rust transition-colors">Portraits</a>
+      <a href="#timeline" class="hover:text-rust transition-colors">Timeline</a>
+      <a href="#letter" class="hover:text-rust transition-colors">Letter</a>
+      <a href="#special" class="hover:text-rust transition-colors">Special</a>
+      <a href="#playlist" class="hover:text-rust transition-colors">Playlist</a>
+      <a href="#reasons" class="hover:text-rust transition-colors">Reasons</a>
+      <a href="#open-when" class="hover:text-rust transition-colors">Open When</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="relative z-10 max-w-4xl mx-auto px-6 py-32 text-center">
+    <div class="envelope-wrap" id="hero-envelope">
+      <div class="envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-letter">LOVE</div>
+      </div>
+      <p class="text-xs tracking-[.24em] uppercase text-bark/50 mt-4">Tap untuk membuka surat</p>
+    </div>
+    <div class="hero-copy">
+      <p class="hero-sub section-label mb-6">Sebuah persembahan kecil, untukmu</p>
+      <h1 class="hero-title">
+        <span class="hero-line-1">Happy Birthday,</span>
+        <span class="name hero-line-2">Shinta Aulia<br>Syafitri</span>
+      </h1>
+    </div>
+    <p class="hero-sub hero-copy font-body font-light text-bark/70 text-lg mt-7 max-w-lg mx-auto leading-relaxed">
+      Langit hari ini nggak perlu repot-repot bersinar lebih hangat, karena senyum kamu saja sudah cukup buat bikin hariku terasa sempurna. Selamat ulang tahun, Cantik.
+    </p>
+    <a href="#counter" class="hero-sub hero-copy inline-block mt-10 px-8 py-3.5 rounded-full border border-rust/40 text-rust text-sm tracking-widest uppercase font-body hover:bg-rust hover:text-cream transition-all duration-300">
+      Lihat selengkapnya ↓
+    </a>
+  </div>
+</section>
+
+<!-- ── COUNTING OUR DAYS ── -->
+<section id="counter" class="py-24 px-6 bg-cream relative z-10">
+  <div class="max-w-3xl mx-auto text-center">
+    <p class="section-label reveal">Our Timeline</p>
+    <h2 class="section-title reveal reveal-delay-1">Sudah Berapa Lama Kita?</h2>
+    <div class="divider mx-auto reveal reveal-delay-2"></div>
+    <p class="font-body text-bark/60 text-sm mb-10 reveal reveal-delay-2">Dihitung sejak hari kita resmi bersama</p>
+
+    <div class="grid grid-cols-4 gap-4 reveal reveal-delay-3">
+      <div class="counter-card">
+        <div class="counter-num" id="cnt-days">0</div>
+        <div class="counter-label">Hari</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-num" id="cnt-hours">0</div>
+        <div class="counter-label">Jam</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-num" id="cnt-minutes">0</div>
+        <div class="counter-label">Menit</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-num" id="cnt-seconds">0</div>
+        <div class="counter-label">Detik</div>
+      </div>
+    </div>
+
+    <p class="text-xs font-body text-bark/30 mt-6 reveal reveal-delay-4">
+      * Perbarui tanggal anniversary di kode agar sesuai
+    </p>
+  </div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section id="timeline" class="py-24 px-6 bg-cream relative z-10">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Kenangan Kita</p>
+      <h2 class="section-title reveal reveal-delay-1">Garis Waktu: Tentang Kamu, Aku, dan Sedikit Takdir</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+      <p class="font-body text-bark/55 max-w-md mx-auto text-sm leading-relaxed reveal reveal-delay-2">
+        Kumpulan hari-hari yang nggak akan pernah aku hapus dari ingatan.
+      </p>
+    </div>
+    <div class="timeline-wrap reveal reveal-delay-2">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <div class="timeline-photo"><img src="Timeline%20Cerita/Foto%20Berdua%20Pertama.jpg" alt="Foto berdua pertama"/></div>
+        <div class="timeline-content">
+          <p class="timeline-date">Awal dari Segala Doa</p>
+          <p>Ini foto pertama kita. Waktu itu aku masih malu-malu mau deketin kamu, takut kalau duniaku yang berisik ini nggak cocok buat kamu. Tapi ternyata, berdiri di sebelah kamu sore itu bikin aku sadar satu hal: aku nggak mau berdiri di sebelah orang lain lagi.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <div class="timeline-photo"><img src="Timeline%20Cerita/Photobooth%20Pertama%20Kita.jpg" alt="Photobooth pertama"/></div>
+        <div class="timeline-content">
+          <p class="timeline-date">Empat Kotak Penuh Tawa</p>
+          <p>Kotaknya memang sempit, tapi bahagianya meluap sampai hari ini. Di dalam sini kita bebas jadi konyol, jadi apa adanya. Ternyata, ketawa bareng kamu itu candu ya? Empat foto ini nggak akan pernah cukup buat nampung semua cerita kita ke depannya.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-dot"></span>
+        <div class="timeline-photo"><img src="Timeline%20Cerita/Bioskop%20Date.jpeg" alt="Bioskop date"/></div>
+        <div class="timeline-content">
+          <p class="timeline-date">Setannya Kalah Sama Kamu</p>
+          <p>Orang-orang di dalam sana pada ketakutan lihat layar, tapi aku malah sibuk tenang karena ada kamu di sebelahku. Katanya filmnya seram, tapi bagiku yang lebih menakutkan itu kalau sehari saja nggak lihat senyum kamu. Fokusku? Jelas bukan ke layar, tapi ke orang yang paling berharga di sampingku ini.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PORTRAITS ── -->
+<section id="portraits" class="py-24 px-6 bg-cream relative z-10">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Portraits</p>
+      <h2 class="section-title reveal reveal-delay-1">Shinta, dan Segala Binar yang Menetap</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+      <p class="font-body text-bark/55 max-w-md mx-auto text-sm leading-relaxed reveal reveal-delay-2">
+        Merayakan kamu, orang favorit yang bikin setiap hari terasa seperti kado yang tak ada habisnya
+      </p>
+    </div>
+
+    <div class="portrait-shell reveal reveal-delay-3">
+      <button class="portrait-nav prev" id="portrait-prev" type="button" aria-label="Sebelumnya">◀</button>
+      <div class="portrait-viewport">
+        <div class="portrait-track" id="portrait-track"></div>
+      </div>
+      <button class="portrait-nav next" id="portrait-next" type="button" aria-label="Berikutnya">▶</button>
+    </div>
+    <div class="portrait-dots" id="portrait-dots"></div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery" class="py-24 px-6 bg-fog relative z-10">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Momen Kita</p>
+      <h2 class="section-title reveal reveal-delay-1">Sejauh Mana pun Pergi, Pulangnya Tetap Kamu</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+      <p class="font-body text-bark/55 max-w-md mx-auto text-sm leading-relaxed reveal reveal-delay-2">
+        Kumpulan memori yang membuktikan kalau perjalanan paling indah itu bukan soal ke mana tujuannya, tapi soal siapa yang duduk di sebelah aku di sepanjang jalan.
+      </p>
+    </div>
+
+    <div class="gallery-grid reveal reveal-delay-3">
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%201.jpeg" alt="Galeri 01"/>
+        <div class="gallery-caption">Galeri 01</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%202.jpeg" alt="Galeri 02"/>
+        <div class="gallery-caption">Galeri 02</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%203.jpeg" alt="Galeri 03"/>
+        <div class="gallery-caption">Galeri 03</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%204.jpeg" alt="Galeri 04"/>
+        <div class="gallery-caption">Galeri 04</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%205.jpeg" alt="Galeri 05"/>
+        <div class="gallery-caption">Galeri 05</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%206.jpeg" alt="Galeri 06"/>
+        <div class="gallery-caption">Galeri 06</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%207.jpeg" alt="Galeri 07"/>
+        <div class="gallery-caption">Galeri 07</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%208.jpeg" alt="Galeri 08"/>
+        <div class="gallery-caption">Galeri 08</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%209.jpeg" alt="Galeri 09"/>
+        <div class="gallery-caption">Galeri 09</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%2010.jpeg" alt="Galeri 10"/>
+        <div class="gallery-caption">Galeri 10</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%2011.jpg" alt="Galeri 11"/>
+        <div class="gallery-caption">Galeri 11</div>
+      </div>
+      <div class="gallery-item">
+        <img src="Galeri%20Kebersamaan/Galeri%2012.jpeg" alt="Galeri 12"/>
+        <div class="gallery-caption">Galeri 12</div>
+      </div>
+    </div>
+
+    <p class="text-center text-xs font-body text-bark/30 mt-5 reveal">Semua Tentang Kita</p>
+  </div>
+</section>
+
+<!-- ── SCRATCH CARD ── -->
+<section id="scratch" class="py-24 px-6 bg-fog relative z-10">
+  <div class="max-w-3xl mx-auto text-center">
+    <p class="section-label reveal">Bonus Kejutan</p>
+    <h2 class="section-title reveal reveal-delay-1">Gosok Kartu Rahasia</h2>
+    <div class="divider mx-auto reveal reveal-delay-2"></div>
+    <div class="scratch-shell reveal reveal-delay-2" id="scratch-shell">
+      <div class="scratch-hidden">
+        Selamat! Kamu baru saja memenangkan satu orang bernama Zahran yang bakal terus sayang sama kamu sampai nanti. Jangan dituker atau dikembalikan ya, soalnya stoknya cuma satu di dunia dan sudah jadi milik kamu selamanya.
+      </div>
+      <canvas id="scratch-canvas"></canvas>
+    </div>
+    <div class="scratch-meter reveal reveal-delay-3"><div class="scratch-meter-fill" id="scratch-meter-fill"></div></div>
+  </div>
+</section>
+
+<!-- ── SPECIALS ── -->
+<section id="special" class="py-24 px-6 bg-cream relative z-10">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Tambahan Spesial</p>
+      <h2 class="section-title reveal reveal-delay-1">Lebih Dari Sekadar Ucapan</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+    </div>
+
+    <div class="special-grid reveal reveal-delay-2">
+      <div class="special-card">
+        <p class="section-label" style="letter-spacing:.16em">HARI INI SPESIAL KARENA...</p>
+        <p class="text-bark/75 text-sm">Alasan-alasan kecil yang bikin aku makin nggak mau jauh dari kamu.</p>
+        <div class="today-reasons">
+          <div class="today-highlight">"Dunia lagi baik banget hari ini, dia izinin aku buat ngerayain lahirnya orang yang paling aku sayang."</div>
+          <ul class="today-list">
+            <li>Senyum kamu itu saingannya pelangi. Kalau kamu sudah senyum, mendung di kepalaku langsung bubar—bahkan gemuruh air terjun waktu itu pun kalah merdu sama suara tawa kamu.</li>
+            <li>Namamu adalah barisan huruf paling indah yang pernah aku sebut. Di setiap sujud, ada doa-doa yang sengaja aku titipkan ke langit, supaya kamu selalu dijaga oleh-Nya meski aku lagi nggak di sampingmu.</li>
+            <li>Hari ini adalah pengingat kalau aku pemenangnya. Karena dari sekian banyak orang yang mengagumimu, akulah yang paling beruntung bisa memanggilmu "milikku" di usiamu yang ke-19 ini.</li>
+            <li>Hal biasa jadi terasa luar biasa kalau ada kamu. Makan mie instan atau sekadar keliling kota pun jadi istimewa, asal tanganku nggak lepas dari genggamanmu.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="special-card">
+        <p class="section-label" style="letter-spacing:.16em">Wish Jar</p>
+        <p class="text-bark/75 text-sm">Tulis harapan kecil, nanti tersimpan di browser ini.</p>
+        <form id="wish-form" class="wish-form">
+          <input id="wish-input" maxlength="70" placeholder="Contoh: Semoga kamu sehat selalu" />
+          <button type="submit">Simpan</button>
+        </form>
+        <div class="wish-list" id="wish-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LETTER ── -->
+<section id="letter" class="py-24 px-6 relative z-10">
+  <div class="max-w-2xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Surat Untukmu</p>
+      <h2 class="section-title reveal reveal-delay-1">Kata-Kata yang Selalu Ada</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+    </div>
+
+    <div class="letter-box reveal reveal-delay-2">
+      <div class="letter-body">
+        <p class="text-rust/70 text-sm font-body tracking-widest uppercase mb-6">Padang, 16 Mei 2026 — Untuk Shinta, yang cantiknya nggak pernah libur.</p>
+
+        <p>Shinta sayang,</p>
+
+        <p>
+          Tuhan itu baik ya? Dia ciptain air terjun yang begitu megah, terus naruh kamu di depannya. Waktu itu aku bingung, harus liatin air yang jatuh atau mata kamu yang lebih menyejukkan. Ternyata aku kalah; air terjunnya cuma jadi latar suara, sementara kamu jadi pusat dunianya.
+        </p>
+
+        <p>
+          Di antara suara air yang jatuh menderu, aku malah sibuk dengerin degup jantung sendiri. Sejak hari itu, aku tahu kalau perjalanan ini nggak akan singkat. Karena buat aku, kamu itu kayak air terjun tadi: indah dilihat, bikin tenang kalau dideketin, dan selalu bikin aku pengen balik lagi setiap kali aku merasa lelah sama dunia.
+        </p>
+
+        <p>
+          Terima kasih ya, sudah mau diajak repot buat tumbuh bareng. Terima kasih sudah tetap tinggal meskipun aku kadang menyebalkan. Kamu mengajarkanku kalau sayang itu nggak harus selalu tentang puisi yang rumit. Kadang, sayang itu cuma tentang pertanyaan "kamu sudah makan?" atau senyum kamu yang muncul waktu aku lagi cerita hal-hal nggak jelas.
+        </p>
+
+        <p>
+          Di hari ulang tahunmu yang ke-19 ini, aku nggak mau kasih janji yang setinggi langit. Takut nanti jatuh, sakit. Aku cuma mau janji satu hal: selama aku masih punya doa, namamu akan selalu ada di barisan paling depan. Aku akan tetap jadi orang yang sama, yang akan selalu mengusahakan biar binar di mata kamu itu nggak pernah hilang.
+        </p>
+
+        <p>
+          Selamat ulang tahun, Shinta Aulia Syafitri. Jangan cepat dewasa ya, biarkan aku saja yang menjagamu tetap jadi ratu di kerajaanku yang sederhana ini.
+        </p>
+
+        <p>
+          Kamu itu indah. Tolong, jangan berubah.
+        </p>
+
+        <p class="mt-8 text-right font-display italic text-rust text-xl">
+          Selalu untukmu,<br/>
+          <span class="text-2xl">Pacarmu yang ganteng</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLAYLIST ── -->
+<section id="playlist" class="py-24 px-6 relative z-10">
+  <div class="max-w-2xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label playlist-label reveal">Musik Kita</p>
+      <h2 class="section-title playlist-title reveal reveal-delay-1">Di Sini, Kamu Selalu Menetap</h2>
+      <div class="divider mx-auto reveal reveal-delay-2" style="background: linear-gradient(90deg, #F2C4A0, transparent)"></div>
+      <p class="font-body text-cream/50 text-sm reveal reveal-delay-2">Biarpun nggak selalu kita putar bareng, tapi tiap kali lagu ini bunyi, bayangan kamu yang pertama muncul. Kamu itu satu-satunya lagu yang nggak akan pernah aku bosan buat dengerin</p>
+    </div>
+
+    <!-- Player Bar -->
+    <div class="player-bar mb-6 reveal reveal-delay-2">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber to-rust flex items-center justify-center text-cream text-lg shrink-0">M</div>
+        <div class="flex-1 min-w-0">
+          <div class="text-cream text-sm font-body truncate" id="now-playing-title">Pilih lagu yang bikin aku inget kamu</div>
+          <div class="text-cream/40 text-xs" id="now-playing-artist">—</div>
+        </div>
+        <div class="text-cream/40 text-xs font-body" id="time-display">0:00</div>
+      </div>
+      <!-- progress -->
+      <div class="progress-bar mb-4" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <!-- controls -->
+      <div class="flex items-center justify-center gap-5">
+        <button class="ctrl-btn" onclick="prevTrack()" title="Sebelumnya">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button class="play-btn" id="play-btn" onclick="togglePlay()">
+          <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" width="22" height="22" viewBox="0 0 24 24" fill="white" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="ctrl-btn" onclick="nextTrack()" title="Berikutnya">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Track List -->
+    <div class="space-y-1 reveal reveal-delay-3" id="track-list"></div>
+    <p class="text-center text-xs font-body text-cream/20 mt-5 reveal">Karena musik yang indah layak didengar berdua</p>
+  </div>
+</section>
+
+<!-- ── SWEET & SIMPLE ── -->
+<section id="reasons" class="py-24 px-6 bg-fog relative z-10">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Reasons</p>
+      <h2 class="section-title reveal reveal-delay-1">Alasan Aku Sayang Kamu</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+    </div>
+    <div class="reasons-shell reveal reveal-delay-2">
+      <div class="reasons-carousel" aria-live="polite">
+        <button class="reasons-nav prev" id="reason-prev" type="button" aria-label="Sebelumnya">◀</button>
+        <div class="reasons-viewport">
+          <div class="reasons-track" id="reasons-track"></div>
+        </div>
+        <button class="reasons-nav next" id="reason-next" type="button" aria-label="Berikutnya">▶</button>
+      </div>
+      <div class="reasons-dots" id="reasons-dots"></div>
+    </div>
+  </div>
+</section>
+
+<section id="open-when" class="py-24 px-6 bg-cream relative z-10">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-12 text-center">
+      <p class="section-label reveal">Open When</p>
+      <h2 class="section-title reveal reveal-delay-1">Pesan Kecil Untuk Setiap Momen</h2>
+      <div class="divider mx-auto reveal reveal-delay-2"></div>
+    </div>
+    <div class="open-when-list reveal reveal-delay-2">
+      <details class="open-when-card">
+        <summary>Open when kamu lagi capek</summary>
+        <p>Istirahat dulu ya. Kamu sudah hebat hari ini. Aku bangga sama kamu.</p>
+      </details>
+      <details class="open-when-card">
+        <summary>Open when kamu lagi sedih</summary>
+        <p>Aku di sini. Boleh peluk dari jauh? Kamu tidak sendiri.</p>
+      </details>
+      <details class="open-when-card">
+        <summary>Open when kamu kangen</summary>
+        <p>Bayangin aku pegang tangan kamu sambil bilang, "sebentar lagi ketemu."</p>
+      </details>
+      <details class="open-when-card">
+        <summary>Open when kamu butuh semangat</summary>
+        <p>Kamu selalu bisa. Pelan-pelan aja, tapi jangan berhenti.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="relative z-10">
+  <div class="max-w-xl mx-auto">
+    <div class="footer-title mb-6">Happy Birthday</div>
+    <p class="footer-sig mb-3">"Terima kasih sudah lahir, Shinta"</p>
+    <p class="font-body text-cream/40 text-sm mt-4">Dari Zahran, orang paling beruntung yang bakal terus nungguin kamu di ujung jalan. Sampai ketemu di ratusan hari ulang tahun berikutnya</p>
+    <div class="mt-8 w-12 h-px bg-cream/20 mx-auto"></div>
+    <p class="text-cream/20 text-xs mt-4 font-body">Dari rumah tempatmu pulang, Zahran — 2026</p>
+  </div>
+</footer>
+
+</div>
+
+<!-- ── AUDIO (hidden) ── -->
+<audio id="audio-player" preload="none"></audio>
+
+<script src="birthday.js"></script>
+</body>
+</html>
